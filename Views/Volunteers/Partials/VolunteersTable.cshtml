@@ -1,0 +1,72 @@
+﻿@using System.Configuration
+@model FoodBanksMVC.Models.VolunteersModel
+
+@{
+	var baseUri = ConfigurationManager.AppSettings[ "SiteBaseUrl" ];
+}
+
+<div>
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>DOB</th>
+					<th class="text-center">Assigned Food Bank</th>
+					<th class="text-center"></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach ( var volunteer in Model.Volunteers )
+				{
+					<tr id="row_@volunteer.Id">
+						@Html.Partial( "Partials/VolunteerTableRow", volunteer )
+					</tr>
+				}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td>Total: @Model.TotalVolunteers</td>
+					<td></td>
+                    <td colspan="2" class="text-right">
+                        @if ( Model.Links != null && Model.Links.Count > 0 )
+                        {
+                            var link = Model.Links.FirstOrDefault( x => x.Rel == "previous" );
+                            if ( link != null )
+                            {
+                                var uri = new Uri( baseUri + link.Href );
+                                var offSet = HttpUtility.ParseQueryString( uri.Query )[ "offset" ];
+                                var limit = HttpUtility.ParseQueryString( uri.Query )[ "limit" ];
+                                <a style="cursor: pointer;" data-offset="@offSet" data-limit="@limit" onclick="PageVolunteers(@offSet, @limit)">Previous</a> <span> | </span>
+                            }
+                            else
+                            {
+                                <span>Previous | </span>
+                            }
+
+                            link = Model.Links.FirstOrDefault( x => x.Rel == "next" );
+                            if ( link != null )
+                            {
+                                var uri = new Uri( baseUri + link.Href );
+                                var offSet = HttpUtility.ParseQueryString( uri.Query )[ "offset" ];
+                                var limit = HttpUtility.ParseQueryString( uri.Query )[ "limit" ];
+                                if ( Model.TotalVolunteers > int.Parse( limit ) )
+                                {
+                                    <a style="cursor: pointer;" data-offset="@offSet" data-limit="@limit" onclick="PageVolunteers(@offSet, @limit)">Next</a>
+                                }
+                                else
+                                {
+                                   <span>Next</span>
+                                }
+                            }
+                            else
+                            {
+                                <span>Next</span>
+                            }
+                        }
+                    </td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

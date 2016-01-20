@@ -1,0 +1,21 @@
+﻿@model FoodBanksMVC.Models.FoodBank
+
+<td>@Model.Name</td>
+<td>@Model.Addr1 @Model.Addr2 @Model.City, @Model.State @Model.Postal</td>
+<td class="text-center">@Model.DonationCount.ToString()</td>
+<td class="text-center">@Model.VolunteerCount.ToString()</td>
+<td class="text-center">
+	<a class="pointer FoodBank-Edit" title="Edit Food Bank." data-id="@Model.Id"><i class="fa fa-edit"></i></a>
+	@*@if(Model.DonationCount>0)
+	{
+		<a href="~/Donations/@Model.Id/" title="View Donations."><i class="fa fa-gift"></i></a>
+	}
+	@if(Model.VolunteerCount>0)
+	{
+		<a href="~/Volunteers/@Model.Id/" title="View Assigned Volunteers."><i class="fa fa-users"></i></a>
+	}*@
+	@if(Model.DonationCount==0 & Model.VolunteerCount == 0)
+	{
+		<a class="pointer FoodBank-Delete" title="Delete Food Bank." data-id="@Model.Id" data-title="@Model.Name"><i class="fa fa-trash-o"></i></a>	
+	}
+</td>

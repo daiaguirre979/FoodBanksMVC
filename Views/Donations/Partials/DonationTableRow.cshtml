@@ -1,0 +1,24 @@
+﻿@model FoodBanksMVC.Models.Donation
+
+<td>@Model.Item</td>
+<td class="text-center">@Model.Created.ToShortDateString()</td>
+<td class="text-center">@Model.Quantity</td>
+<td class="text-center">
+    <div class="progress">
+        @{
+            var per = @Model.Quality * 10;
+            if ( per > 100 )
+                per = 100;
+            
+        }        
+        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @per%;">
+            @Model.Quality of 10
+        </div>
+    </div>
+</td>
+<td>@Model.FoodBankName</td>
+<td>@Model.VolunteerName</td>
+<td class="text-center">
+    <a class="pointer Donation-Edit" title="Edit Donation." data-id="@Model.Id"><i class="fa fa-edit"></i></a>
+    <a class="pointer Donation-Delete" title="Delete Donation." data-id="@Model.Id" data-title="@Model.Item"><i class="fa fa-trash-o"></i></a>
+</td>

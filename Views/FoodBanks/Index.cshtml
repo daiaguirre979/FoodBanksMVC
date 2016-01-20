@@ -1,0 +1,120 @@
+﻿@model FoodBanksMVC.Models.FoodBanksModel
+@using FoodBanksMVC.Models
+@{
+	ViewBag.Title = "Food Banks MVC";
+	Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+@{
+	var ajOptionsNewFoodBank = new AjaxOptions
+	{
+		HttpMethod = "Post",
+		OnComplete = "NewFoodBankOnComplete",
+		OnSuccess = "NewFoodBankOnSuccess",
+		OnFailure = "NewFoodBankOnFailure",
+		OnBegin = "NewFoodBankOnBegin",
+		UpdateTargetId = "div_FoodBanks"
+	};
+
+	var ajOptionsEditFoodBank = new AjaxOptions
+	{
+		HttpMethod = "Post",
+		OnComplete = "EditFoodBankOnComplete",
+		OnSuccess = "EditFoodBankOnSuccess",
+		OnFailure = "EditFoodBankOnFailure",
+		OnBegin = "EditFoodBankOnBegin",
+		//UpdateTargetId = "div_FoodBanks"
+	};
+
+	var ajOptionsDeleteFoodBank = new AjaxOptions
+	{
+		HttpMethod = "Post",
+		OnComplete = "DeleteFoodBankOnComplete",
+		OnSuccess = "DeleteFoodBankOnSuccess",
+		OnFailure = "DeleteFoodBankOnFailure",
+		OnBegin = "DeleteFoodBankOnBegin",
+		//UpdateTargetId = "div_FoodBanks"
+	};
+}
+
+<div class="container">
+	<div>
+		<button type="button" id="btnNewFoodBank" class="btn btn-info float-right" data-toggle="modal" data-target="#FoodBankModal" value="New Food Bank">New Food Bank</button>
+		<div class="clearfix">&nbsp;</div>
+		<div class="alert alert-danger" role="alert" style="display: none;" id="div_NewFoodBankErrorAlert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<span>An error occurred when attempting to create the food bank.</span>
+		</div>
+	</div>
+
+	<div id="div_FoodBanks">
+		@Html.Partial( "Partials/FoodBanksTable", Model )
+	</div>
+</div>
+
+<div class="modal fade" id="FoodBankModal">
+	@using ( Ajax.BeginForm( "CreateFoodBank", "FoodBanks", null, ajOptionsNewFoodBank, new { @id = "frmNewFoodBank", @class = "form-horizontal" } ) )
+	{
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">New Food Bank</h4>
+				</div>
+				<div class="modal-body">
+					@Html.Partial( "Partials/FoodBank", new FoodBanksModel { FoodBank = new FoodBank() } )
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="btnCancelNewFoodBank">Close</button>
+					<button type="submit" class="btn btn-primary" id="btnCreateNewFoodBank">Create</button>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+<div class="modal fade" id="FoodBankEditModal">
+	@using ( Ajax.BeginForm( "UpdateFoodBank", "FoodBanks", null, ajOptionsEditFoodBank, new { @id = "frmEditFoodBank", @class = "form-horizontal" } ) )
+	{
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="FoodBankEditModalTitle"></h4>
+				</div>
+				<div class="modal-body" id="FoodBankEditModalBody">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="btnCancelSaveFoodBank">Close</button>
+					<button type="submit" class="btn btn-primary" id="btnSaveNewFoodBank">Save</button>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+<div class="modal fade" id="FoodBankDeleteModal">
+	@using ( Ajax.BeginForm( "DeleteFoodBank", "FoodBanks", null, ajOptionsDeleteFoodBank, new { @id = "frmDeleteFoodBank", @class = "form-horizontal" } ) )
+	{
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="FoodBankDeleteModalTitle"></h4>
+				</div>
+				<div class="modal-body">
+					<table style="width: 100%; border: 1px;">
+						<tr>
+							<td style="padding: 5px; text-align: left;">Are you sure you want to delete this Food Bank</td>
+							<td style="text-align: right;"><i class="fa fa-4x fa-question-circle"></i></td>
+							@Html.Hidden( "id", "" )
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="btnCancelDeleteFoodBank">Cancel</button>
+					<button type="submit" class="btn btn-primary" id="btnDeleteFoodBank">Yes</button>
+				</div>
+			</div>
+		</div>
+	}
+</div>

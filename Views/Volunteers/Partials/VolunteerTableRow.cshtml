@@ -1,0 +1,10 @@
+﻿@model FoodBanksMVC.Models.Volunteer
+
+<td>@Model.Name</td>
+<td>@Model.DateOfBirth.ToShortDateString()</td>
+<td class="text-center">@Model.FoodBankName</td>
+<td class="text-center">
+	<a class="pointer Volunteer-Edit" title="Edit Volunteer." data-id="@Model.Id"><i class="fa fa-edit"></i></a>
+	<a class="pointer Volunteer-Delete" title="Delete Volunteer." data-id="@Model.Id" data-title="@Model.Name"><i class="fa fa-trash-o"></i></a>	
+	
+</td>

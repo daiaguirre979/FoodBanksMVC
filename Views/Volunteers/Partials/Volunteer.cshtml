@@ -1,0 +1,42 @@
+﻿@model FoodBanksMVC.Models.VolunteersModel
+
+<div>
+    @Html.HiddenFor( model => Model.Volunteer.Id )
+    <input type="hidden" id="VolName" name="VolName" value="@Model.Volunteer.Name" />
+
+    <input type="hidden" id="Volunteer-name" name="volunteer-name" value="@Model.Volunteer.Name" />
+    <div class="form-group">
+        <label for="Volunteer_Name" class="col-sm-3 control-label">Name</label>
+        <div class="col-sm-9">
+            @Html.TextBoxFor( model => Model.Volunteer.Name, new { @class = "form-control", @placeholder = "Name", @maxlength = "150" } )
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Volunteer_DateOfBirth" class="col-sm-3 control-label">DOB</label>
+        <div class="col-sm-9">
+            @Html.TextBoxFor( model => Model.Volunteer.DateOfBirth, new { @class = "form-control", @placeholder = "Date of Birth", @maxlength = "" } )
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Volunteer_Addr2" class="col-sm-3 control-label">Food Bank</label>
+        <div class="col-sm-9">
+            @Html.DropDownListFor( model => Model.Volunteer.FoodBankId, Model.GetFoodBanks(), new { @class = "form-control", @style = "width: 75%;" } )
+        </div>
+    </div>
+</div>
+
+
+@if ( Model.Volunteer.Id == 0 )
+{
+    <script src="~/Content/js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Volunteer_DateOfBirth").val('');
+        });
+    </script>
+}
+else
+{
+}
